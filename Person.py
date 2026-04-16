@@ -30,20 +30,20 @@ class Seller(Person):
         return Seller._sellerNo
 
 class Buyer(Person):
-    _buyerNo = 0
+    _buyer_no = 0
 
     def __init__(self, name, phone, bank_account, address, email, vat_number):
         super().__init__(name, phone, bank_account, address, email)
         self._vatNumber = vat_number
-        self._buyerNo = Buyer.generate_buyer_id()
+        self._buyer_no = Buyer.generate_buyer_id()
 
     @staticmethod
     def generate_buyer_id():
-        Buyer._buyerNo += 1
-        return Buyer._buyerNo
+        Buyer._buyer_no += 1
+        return Buyer._buyer_no
 
     def display_user_info(self):
-            print(f"User ID: {self._buyerNo}, Name: {self._name}")
+            print(f"User ID: {self._buyer_no}, Name: {self._name}")
 
     def set_name(self, name):
         self._name = name
