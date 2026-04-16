@@ -18,15 +18,32 @@ class Staff(Person):
         self._ppsNo = ppsNo
 
 class Seller(Person):
-    def __init__(self, name, phone, bankAccount, address, email, sellerNo):
+    _sellerNo = 0
+
+    def __init__(self, name, phone, bankAccount, address, email):
         super().__init__(name, phone, bankAccount, address, email)
-        self._sellerNo = sellerNo
+        self._sellerNo = Seller.generate_seller_id()
+
+    @staticmethod
+    def generate_seller_id():
+        Seller._sellerNo += 1
+        return Seller._sellerNo
 
 class Buyer(Person):
-    def __init__(self, name, phone, bankAccount, address, email, buyerNo, vatNumber):
+    _buyerNo = 0
+
+    def __init__(self, name, phone, bankAccount, address, email, vatNumber):
         super().__init__(name, phone, bankAccount, address, email)
-        self._buyerNo = buyerNo
         self._vatNumber = vatNumber
+        self._buyerNo = Buyer.generate_buyer_id()
+
+    @staticmethod
+    def generate_buyer_id():
+        Buyer._buyerNo += 1
+        return Buyer._buyerNo
+
+    def display_user_info(self):
+            print(f"User ID: {self._buyerNo}, Name: {self._name}")
 
 class Auctioneer(Person):
     def __init__(self, name, phone, bankAccount, address, email, auctionId):
