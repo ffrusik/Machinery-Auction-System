@@ -5,8 +5,24 @@ class Person:
         self._bank_account = bank_account
         self._address = address
         self._email = email
+        
     def display(self):
         return f"Name: {self._name}, Phone: {self._phone}, Bank Account: {self._bank_account}, Address: {self._address}, Email: {self._email}"
+    
+    def set_name(self, name):
+        self._name = name
+
+    def set_phone(self, phone):
+        self._phone = phone
+
+    def set_bank_account(self, bank_account):
+        self._bank_account = bank_account
+
+    def set_address(self, address):
+        self._address = address
+
+    def set_email(self, email):
+        self._email = email
 
 class Staff(Person):
     def __init__(self, name, phone, bank_account, address, email, position, salary, logon_id, password, pps_no):
@@ -45,14 +61,9 @@ class Buyer(Person):
     def display_user_info(self):
             print(f"User ID: {self._buyer_no}, Name: {self._name}")
 
-    def set_name(self, name):
-        self._name = name
-
-    def set_phone(self, phone):
-        self._phone = phone
-
-    def set_bank_account(self, bank_account):
-        self._bank_account = bank_account
+    # setters
+    def set_vat_number(self, vat_number):
+        self._vatNumber = vat_number
 
 class Auctioneer(Person):
     def __init__(self, name, phone, bank_account, address, email, auction_id):
