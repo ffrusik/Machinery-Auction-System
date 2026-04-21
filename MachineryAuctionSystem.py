@@ -113,25 +113,44 @@ class MachineryAuctionSystem:
             
             choice = input("\nEnter your choice (1-7): ")
             
-            if choice == '1':
-                print("\n Register Buyer logic...")
-            elif choice == '2':
-                print("\n Register Seller logic...")
-            elif choice == '3':
-                print("\n Register Employee logic...")
-            elif choice == '4':
-                print("\n Create Lot logic...")
-            elif choice == '5':
-                print("\n Record Sale logic...")
-            elif choice == '6':
-                print("\n View Invoices / Results logic...")
-            elif choice == '7':
-                print("\nSaving data and exiting...")
-                self.save_data()
-                print("Exiting...")
-                break
-            else:
-                print("\nInvalid choice. Please pick 1-7.")
+            match choice:
+                case '1':
+                    print("\n--- Register a New Buyer ---")
+                    name = input("Enter Name: ")
+                    phone = input("Enter Phone: ")
+                    bank_account = input("Enter Bank Account: ")
+                    address = input("Enter Address: ")
+                    email = input("Enter Email: ")
+                    vat_number = input("Enter VAT Number (leave blank if none): ")
+                    
+                    new_buyer = Buyer(name, phone, bank_account, address, email, vat_number)
+                    self.register_buyer(new_buyer)
+                    print("\nSuccess! Buyer registered.")
+                    new_buyer.display_user_info()
+
+                case '2':
+                    
+
+                case '3':
+                    
+
+                case '4':
+                    print("\n Create Lot logic...")
+
+                case '5':
+                    print("\n Place a Bid logic...")
+
+                case '6':
+                    print("\n View Auction Results logic...")
+
+                case '7':
+                    print("\nSaving data and exiting...")
+                    self.save_data()
+                    print("Exiting...")
+                    break
+
+                case _:
+                    print("\nInvalid choice. Please pick 1-7.")
 
 machinery_auction_system = MachineryAuctionSystem()
 machinery_auction_system.start_auction()
