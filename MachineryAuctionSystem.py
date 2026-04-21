@@ -129,7 +129,16 @@ class MachineryAuctionSystem:
                     new_buyer.display_user_info()
 
                 case '2':
+                    print("\n--- Register a New Seller ---")
+                    name = input("Enter Name: ")
+                    phone = input("Enter Phone: ")
+                    bank_account = input("Enter Bank Account: ")
+                    address = input("Enter Address: ")
+                    email = input("Enter Email: ")
                     
+                    new_seller = Seller(name, phone, bank_account, address, email)
+                    self.register_seller(new_seller)
+                    print(f"\nSuccess! Seller '{name}' registered with Seller ID: {new_seller._sellerNo}")
 
                 case '3':
                     
