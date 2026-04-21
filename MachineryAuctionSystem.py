@@ -40,6 +40,20 @@ class MachineryAuctionSystem:
                 i.set_vat_number(vat_number if vat_number is not None else i.get_vat_number())
                 break
 
+    def save_data(self):
+        with open("buyers.txt", "wb") as fh:
+            pickle.dump(self._buyers, fh)
+        with open("sellers.txt", "wb") as fh:
+            pickle.dump(self._sellers, fh)
+        with open("employees.txt", "wb") as fh:
+            pickle.dump(self._employees, fh)
+        with open("lots.txt", "wb") as fh:
+            pickle.dump(self._lots, fh)
+        with open("sales.txt", "wb") as fh:
+            pickle.dump(self._sales, fh)
+        with open("payments.txt", "wb") as fh:
+            pickle.dump(self._payments, fh)
+
     def start_auction(self):
         try:
             fh = open("buyers.txt", "rb")
@@ -86,13 +100,38 @@ class MachineryAuctionSystem:
 
         print("Machinery Auction System: ")
         print("Welcome to the auction!")
-        print("1. Register as a Buyer")
-        print("2. Register as a Seller")
-        print("3. Register as an Employee")
-        print("4. Create a Lot")
-        print("5. Place a Bid")
-        print("6. View Auction Results")
-        print("7. Exit")
+        
+        while True:
+            print("\n--- Main Menu ---")
+            print("1. Register as a Buyer")
+            print("2. Register as a Seller")
+            print("3. Register as an Employee")
+            print("4. Create a Lot")
+            print("5. Place a Bid")
+            print("6. View Auction Results")
+            print("7. Exit")
+            
+            choice = input("\nEnter your choice (1-7): ")
+            
+            if choice == '1':
+                print("\n Register Buyer logic...")
+            elif choice == '2':
+                print("\n Register Seller logic...")
+            elif choice == '3':
+                print("\n Register Employee logic...")
+            elif choice == '4':
+                print("\n Create Lot logic...")
+            elif choice == '5':
+                print("\n Record Sale logic...")
+            elif choice == '6':
+                print("\n View Invoices / Results logic...")
+            elif choice == '7':
+                print("\nSaving data and exiting...")
+                self.save_data()
+                print("Exiting...")
+                break
+            else:
+                print("\nInvalid choice. Please pick 1-7.")
 
 machinery_auction_system = MachineryAuctionSystem()
 machinery_auction_system.start_auction()
