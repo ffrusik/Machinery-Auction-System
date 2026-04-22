@@ -141,7 +141,21 @@ class MachineryAuctionSystem:
                     print(f"\nSuccess! Seller '{name}' registered with Seller ID: {new_seller._sellerNo}")
 
                 case '3':
+                    print("\n--- Register a New Employee ---")
+                    name = input("Enter Name: ")
+                    phone = input("Enter Phone: ")
+                    bank_account = input("Enter Bank Account: ")
+                    address = input("Enter Address: ")
+                    email = input("Enter Email: ")
+                    position = input("Enter Position: ")
+                    salary = input("Enter Salary: ")
+                    logon_id = input("Enter Logon ID: ")
+                    password = input("Enter Password: ")
+                    pps_no = input("Enter PPS Number: ")
                     
+                    new_employee = Staff(name, phone, bank_account, address, email, position, salary, logon_id, password, pps_no)
+                    self.register_employee(new_employee)
+                    print(f"\nSuccess! Employee '{name}' registered.")
 
                 case '4':
                     print("\n Create Lot logic...")
