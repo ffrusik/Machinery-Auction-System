@@ -1,5 +1,7 @@
 from Payment import Payment
 from Person import *
+from Lot import Lot, Vehicle, nonVehicle
+from Sale import Sale
 import pickle
 
 class MachineryAuctionSystem:
@@ -158,13 +160,56 @@ class MachineryAuctionSystem:
                     print(f"\nSuccess! Employee '{name}' registered.")
 
                 case '4':
-                    print("\n Create Lot logic...")
+                    print("\n--- Create a Lot ---")
+                    lot_type = input("Is this a Vehicle or Non-Vehicle? (v/n): ").lower()
+                    lot_number = input("Enter Lot Number: ")
+                    seller_no = int(input("Enter Seller Number (ID): "))
+                    
+                    if lot_type == 'v':
+                        registration = input("Enter Registration: ")
+                        make = input("Enter Make: ")
+                        model = input("Enter Model: ")
+                        year = input("Enter Year: ")
+                        hours_used = input("Enter Hours Used: ")
+                        new_lot = Vehicle(lot_number, seller_no, registration, make, model, year, hours_used)
+                        self.create_lot(new_lot)
+                        print(f"\nSuccess! Vehicle Lot '{lot_number}' created.")
+                    elif lot_type == 'n':
+                        description = input("Enter Description: ")
+                        new_lot = nonVehicle(lot_number, seller_no, description)
+                        self.create_lot(new_lot)
+                        print(f"\nSuccess! Non-Vehicle Lot '{lot_number}' created.")
+                    else:
+                        print("Invalid lot type selected.")
 
                 case '5':
-                    print("\n Place a Bid logic...")
+                    print("\n--- Record a Sale (Place a Bid) ---")
+                    site_no = input("Enter Site Number: ")
+                    date = input("Enter Date (YYYY-MM-DD): ")
+                    lot_no = input("Enter Lot Number: ")
+                    buyer_no = int(input("Enter Buyer Number (ID): "))
+                    amount = float(input("Enter Sale Amount: "))
+                    commission = float(input("Enter Commission: "))
+                    vat = float(input("Enter VAT: "))
+                    paid = input("Is it paid? (y/n): ").lower() == 'y'
+                    
+                    new_sale = Sale(site_no, date, lot_no, buyer_no, amount, commission, vat, paid)
+                    self.record_sale(new_sale)
+                    print("\nSuccess! Sale recorded.")
+                    
+                    if paid:
+                        new_payment = Payment(date, site_no, buyer_no, amount)
+                        self.process_payment(new_payment)
+                        print("Payment processed and recorded.")
 
                 case '6':
-                    print("\n View Auction Results logic...")
+                    print("\n--- View Auction Results ---")
+                    if not self._sales:
+                        print("No sales recorded yet.")
+                    else:
+                        print("Recorded Sales:")
+                        for sale in self._sales:
+                            print(f"Lot No: {sale.lot_no} | Buyer No: {sale.buyer_no} | Amount: €{sale.amount} | Date: {sale.date} | Paid: {sale.paid}")
 
                 case '7':
                     print("\nSaving data and exiting...")
