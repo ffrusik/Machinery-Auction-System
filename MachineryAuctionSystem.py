@@ -15,7 +15,7 @@ class MachineryAuctionSystem:
         self._sales = []
         self._payments = []
 
-    # ── Registration helpers ──────────────────────────────────────────────────
+    # Registration helpers
 
     def register_buyer(self, buyer):
         self._buyers.append(buyer)
@@ -35,7 +35,7 @@ class MachineryAuctionSystem:
     def process_payment(self, payment):
         self._payments.append(payment)
 
-    # ── Lookup helpers ────────────────────────────────────────────────────────
+    # Lookup helpers
 
     def find_buyer(self, buyer_no):
         for b in self._buyers:
@@ -55,7 +55,7 @@ class MachineryAuctionSystem:
                 return l
         return None
 
-    # ── Persistence ───────────────────────────────────────────────────────────
+    # Persistence
 
     def save_data(self):
         data = {
@@ -89,7 +89,7 @@ class MachineryAuctionSystem:
         except FileNotFoundError:
             print("No previous data found - starting fresh.")
 
-    # ── Menu actions ──────────────────────────────────────────────────────────
+    # Menu actions
 
     def _register_buyer(self):
         print("\n--- Register a New Buyer ---")
@@ -305,7 +305,13 @@ class MachineryAuctionSystem:
             print("Buyer not found.")
             return
         # Spec: only remove if no purchases
-        has_purchases = any(s.get_buyer_no() == buyer_no for s in self._sales)
+        has_purchases = False
+
+        for s in self._sales:
+            if s.get_buyer_no() == buyer_no:
+                has_purchases = True
+                break
+            
         if has_purchases:
             print("Cannot remove buyer - they have purchases on record.")
             return
@@ -327,10 +333,13 @@ class MachineryAuctionSystem:
             print("Buyer not found.")
             return
 
-        unpaid = [s for s in self._sales
-                  if s.get_buyer_no() == buyer_no
-                  and s.get_date() == date_str
-                  and not s.is_paid()]
+        unpaid = []
+
+        for s in self._sales:
+            if s.get_buyer_no() == buyer_no:
+                if s.get_date() == date_str:
+                    if not s.is_paid():
+                        unpaid.append(s)
 
         if not unpaid:
             print("No unpaid lots found for that buyer on that date.")
@@ -412,10 +421,13 @@ class MachineryAuctionSystem:
             print("Buyer not found.")
             return
 
-        unpaid = [s for s in self._sales
-                  if s.get_buyer_no() == buyer_no
-                  and s.get_date() == date_str
-                  and not s.is_paid()]
+        unpaid = []
+
+        for s in self._sales:
+            if s.get_buyer_no() == buyer_no:
+                if s.get_date() == date_str:
+                    if not s.is_paid():
+                        unpaid.append(s)
 
         if not unpaid:
             print("No unpaid lots for that buyer on that date.")
@@ -459,7 +471,7 @@ class MachineryAuctionSystem:
             return
         print("Rates updated (only affects future sales).")
 
-    # ── Main loop ─────────────────────────────────────────────────────────────
+    # Main loop
 
     def start_auction(self):
         self.load_data()

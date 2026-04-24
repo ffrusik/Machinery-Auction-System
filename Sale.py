@@ -15,7 +15,7 @@ class Sale:
         self._vat_rate = vat_rate if vat_rate is not None else Sale.VAT_RATE
         self._paid = paid
 
-    # Calculated fields — spec says calculate, not store
+    # Calculated fields - spec says calculate, not store
     def get_commission(self):
         return round(self._amount * self._commission_rate, 2)
 
