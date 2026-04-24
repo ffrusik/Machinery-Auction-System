@@ -176,18 +176,19 @@ class MachineryAuctionSystem:
     def _view_lots_by_date(self):
         print("\n--- View Lots for a Date ---")
         date_str = input("Enter auction date (YYYY-MM-DD): ").strip()
-        # Sales on that date
+
+        if not self._lots:
+            print("No lots in the system.")
+            return
+
+        # set of lot numbers sold on this date
         lots_sold = {s.get_lot_no() for s in self._sales if s.get_date() == date_str}
-        # Show all lots that appear in sales on that date, or all if no sales yet
-        if lots_sold:
-            for lot_no in lots_sold:
-                lot = self.find_lot(lot_no)
-                if lot:
-                    print(lot.display())
-        else:
-            print("No sales recorded for that date. Showing all available lots:")
-            for lot in self._lots:
-                print(lot.display())
+
+        print(f"\nAll lots for auction date {date_str}:")
+        print("-" * 60)
+        for lot in self._lots:
+            status = "[SOLD]     " if lot.get_lot_number() in lots_sold else "[AVAILABLE]"
+            print(f"{status} {lot.display()}")
 
     def _record_sale(self):
         print("\n--- Record a Sale ---")
@@ -217,7 +218,7 @@ class MachineryAuctionSystem:
                 print("That lot is already sold on this date.")
                 return
 
-        # Snapshot current rates at time of sale (spec requirement)
+        # Snapshot current rates at time of sale
         sale = Sale(site_no, date_str, lot_no, buyer_no, amount,
                     Sale.COMMISSION_RATE, Sale.VAT_RATE)
         self.record_sale(sale)
@@ -256,7 +257,7 @@ class MachineryAuctionSystem:
     def _delete_lot(self):
         print("\n--- Delete a Lot ---")
         try:
-            lot_no = int(input("Lot No to delete: "))
+            lot_no = int(input("Lot No. to delete: "))
         except ValueError:
             print("Invalid input.")
             return
@@ -304,7 +305,7 @@ class MachineryAuctionSystem:
         if not buyer:
             print("Buyer not found.")
             return
-        # Spec: only remove if no purchases
+        # only remove if no purchases
         has_purchases = False
 
         for s in self._sales:
@@ -319,7 +320,7 @@ class MachineryAuctionSystem:
         print(f"Buyer #{buyer_no} removed.")
 
     def _buyer_invoice(self):
-        """Show all unpaid lots for a buyer on a given date, with commission and VAT totals."""
+        #Show all unpaid lots for a buyer on a given date, with commission and VAT totals.
         print("\n--- Buyer Invoice ---")
         try:
             buyer_no = int(input("Buyer No: "))
@@ -368,7 +369,7 @@ class MachineryAuctionSystem:
         print(f"{'='*60}\n")
 
     def _seller_invoice(self):
-        """Self-billing invoice for a seller - all lots sold and amounts due to them."""
+        "Self-billing invoice for a seller - all lots sold and amounts due to them."
         print("\n--- Seller Invoice ---")
         try:
             seller_no = int(input("Seller No: "))
@@ -407,7 +408,7 @@ class MachineryAuctionSystem:
         print(f"{'='*60}\n")
 
     def _accept_payment(self):
-        """Accept payment from a buyer; amount must match what's owed."""
+        #Accept payment from a buyer; amount must match what's owed.
         print("\n--- Accept Payment ---")
         try:
             buyer_no = int(input("Buyer No: "))
